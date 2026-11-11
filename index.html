@@ -1,1 +1,801 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prestige Certificate Studio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Great+Vibes&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold:#c5a04d;
+  --dark:#101e35;
+  --paper:#fffdf7;
+  --ink:#18243a;
+}
+
+* {box-sizing:border-box}
+body {
+  margin:0;
+  font-family:Montserrat,Arial,sans-serif;
+  background:#f1f2f5;
+  color:#20283a;
+}
+header {
+  background:#101e35;
+  color:white;
+  padding:23px 5%;
+  border-bottom:4px solid #c5a04d;
+}
+.brand {
+  font-family:Cinzel,serif;
+  font-size:23px;
+  letter-spacing:2px;
+}
+header p {margin:7px 0 0;color:#d8c99f;font-size:12px}
+main {max-width:1500px;margin:auto;padding:25px}
+h2 {
+  font-family:Cinzel,serif;
+  font-size:19px;
+  color:#142440;
+}
+.workspace {
+  display:grid;
+  grid-template-columns:340px minmax(0,1fr);
+  gap:24px;
+  align-items:start;
+}
+.panel {
+  background:white;
+  padding:20px;
+  border:1px solid #e2e2e2;
+  border-radius:10px;
+  margin-bottom:20px;
+}
+label {
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  margin:13px 0 6px;
+  color:#3c4555;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+input,select {
+  width:100%;
+  padding:11px;
+  border:1px solid #d6d9df;
+  border-radius:5px;
+  font:13px Montserrat,sans-serif;
+  background:white;
+}
+input:focus,select:focus {outline:2px solid #c5a04d}
+button {
+  border:0;
+  border-radius:5px;
+  padding:11px 15px;
+  cursor:pointer;
+  font-weight:700;
+  font-family:Montserrat,sans-serif;
+  font-size:12px;
+}
+.primary {background:#142440;color:white}
+.gold-btn {background:#b99542;color:#101e35}
+.secondary {background:#e9edf3;color:#17243b}
+button:hover {filter:brightness(.94)}
+.button-row {display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.button-row button {flex:1}
+.gallery-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+}
+.design-card {
+  background:white;
+  border:1px solid #ddd;
+  border-radius:7px;
+  padding:8px;
+  cursor:pointer;
+  text-align:left;
+  transition:.2s;
+}
+.design-card:hover {transform:translateY(-3px);border-color:#b99542}
+.design-card.selected {border:2px solid #b99542;background:#fffaf0}
+.design-card small {
+  display:block;
+  padding:8px 2px 2px;
+  font-size:10px;
+  font-weight:700;
+}
+.mini {
+  height:105px;
+  position:relative;
+  overflow:hidden;
+  background:var(--paper);
+  border:5px double var(--gold);
+  color:var(--dark);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:9px;
+}
+.mini:before {
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid var(--gold);
+}
+.mini:after {
+  content:"✦  ❧  ✦";
+  position:absolute;
+  bottom:5px;
+  color:var(--gold);
+  font-size:11px;
+}
+.mini span {font-family:Cinzel,serif;font-size:9px;font-weight:bold;z-index:1}
+.mini b {font-family:"Great Vibes",cursive;font-size:18px;z-index:1}
+.mini em {font-size:6px;letter-spacing:1px;font-style:normal;z-index:1}
+.mini .mini-seal {
+  position:absolute;
+  top:7px;
+  right:9px;
+  border:1px solid var(--gold);
+  border-radius:50%;
+  width:17px;
+  height:17px;
+  font-size:8px;
+  display:grid;
+  place-items:center;
+}
+.preview-area {min-width:0}
+.preview-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.certificate {
+  --gold:#c5a04d;
+  --dark:#101e35;
+  --paper:#fffdf7;
+  --ink:#18243a;
+  position:relative;
+  width:100%;
+  aspect-ratio:1.414 / 1;
+  background:var(--paper);
+  color:var(--ink);
+  overflow:hidden;
+  box-shadow:0 7px 25px #0002;
+  padding:5.5%;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  isolation:isolate;
+}
+.certificate:before {
+  content:"";
+  position:absolute;
+  inset:2.1%;
+  border:5px double var(--gold);
+  z-index:-1;
+}
+.certificate:after {
+  content:"";
+  position:absolute;
+  inset:3.3%;
+  border:1px solid var(--gold);
+  z-index:-1;
+}
+.certificate .inner-border {
+  position:absolute;
+  inset:5%;
+  border:1px solid color-mix(in srgb,var(--gold) 65%,transparent);
+  pointer-events:none;
+  z-index:-1;
+}
+.corner {
+  position:absolute;
+  color:var(--gold);
+  font-family:serif;
+  font-size:clamp(25px,5vw,65px);
+  line-height:1;
+  z-index:0;
+}
+.tl {top:3%;left:3%}
+.tr {top:3%;right:3%;transform:scaleX(-1)}
+.bl {bottom:3%;left:3%;transform:scaleY(-1)}
+.br {bottom:3%;right:3%;transform:scale(-1)}
+.side-ornament {
+  position:absolute;
+  top:30%;
+  color:var(--gold);
+  font-size:clamp(13px,2vw,25px);
+  writing-mode:vertical-rl;
+  letter-spacing:8px;
+}
+.left-ornament {left:3.5%}
+.right-ornament {right:3.5%;transform:rotate(180deg)}
+.cert-logo {
+  width:65px;
+  height:65px;
+  object-fit:contain;
+  margin-bottom:8px;
+  display:none;
+}
+.cert-school {
+  font-family:Cinzel,serif;
+  font-size:clamp(9px,1.4vw,17px);
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--dark);
+  text-transform:uppercase;
+}
+.cert-location {
+  font-size:clamp(6px,.8vw,10px);
+  letter-spacing:1px;
+  margin-top:4px;
+}
+.cert-divider {
+  color:var(--gold);
+  font-size:clamp(12px,2vw,22px);
+  margin:7px 0;
+}
+.cert-heading {
+  font-family:Cinzel,serif;
+  color:var(--dark);
+  font-size:clamp(17px,3.2vw,39px);
+  font-weight:700;
+  letter-spacing:3px;
+  line-height:1.2;
+  margin:5px 0;
+}
+.cert-subheading {
+  font-family:Playfair Display,serif;
+  font-size:clamp(8px,1.2vw,14px);
+  font-style:italic;
+  letter-spacing:1px;
+}
+.awarded {
+  font-size:clamp(7px,1vw,12px);
+  letter-spacing:2px;
+  margin:15px 0 5px;
+}
+.cert-recipient {
+  font-family:"Great Vibes",cursive;
+  color:var(--dark);
+  font-size:clamp(28px,5.4vw,64px);
+  line-height:1.2;
+  padding:0 10px 5px;
+  border-bottom:1px solid var(--gold);
+  min-width:50%;
+}
+.cert-description {
+  font-family:Playfair Display,serif;
+  font-size:clamp(8px,1.2vw,14px);
+  max-width:76%;
+  line-height:1.6;
+  margin:12px auto 8px;
+}
+.cert-award {
+  font-family:Cinzel,serif;
+  color:var(--dark);
+  font-size:clamp(11px,1.8vw,21px);
+  font-weight:700;
+  letter-spacing:1px;
+  margin:4px 0;
+}
+.cert-grade {font-size:clamp(7px,1vw,12px);margin-top:4px}
+.cert-year {
+  font-family:Playfair Display,serif;
+  font-size:clamp(9px,1.2vw,14px);
+  margin-top:10px;
+}
+.cert-date {
+  font-size:clamp(7px,1vw,11px);
+  margin-top:8px;
+}
+.cert-bottom {
+  display:flex;
+  justify-content:space-around;
+  align-items:end;
+  width:80%;
+  margin-top:clamp(15px,3vw,32px);
+  gap:15px;
+}
+.signature {width:38%;text-align:center}
+.signature-line {border-top:1px solid var(--dark);margin-bottom:5px}
+.signature strong {
+  font-family:Cinzel,serif;
+  font-size:clamp(7px,.9vw,11px);
+}
+.signature small {display:block;font-size:clamp(6px,.8vw,9px);margin-top:3px}
+.seal {
+  position:absolute;
+  right:9%;
+  top:36%;
+  width:clamp(40px,7vw,75px);
+  height:clamp(40px,7vw,75px);
+  border:3px double var(--gold);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--gold);
+  font-family:Cinzel,serif;
+  font-size:clamp(7px,1vw,12px);
+  transform:rotate(-12deg);
+}
+.ribbon {
+  position:absolute;
+  top:12%;
+  right:-10%;
+  background:var(--gold);
+  color:var(--dark);
+  width:40%;
+  padding:6px;
+  transform:rotate(35deg);
+  font-size:clamp(6px,.8vw,10px);
+  font-weight:700;
+  letter-spacing:1px;
+}
+.certificate.layout-1 {border-radius:0}
+.certificate.layout-2:before {inset:1.4%;border-width:8px}
+.certificate.layout-2:after {inset:4%;border:3px solid var(--gold)}
+.certificate.layout-3:before {inset:2%;border:8px ridge var(--gold)}
+.certificate.layout-3:after {inset:4.5%;border:1px dashed var(--gold)}
+.certificate.layout-4:before {inset:2%;border:7px double var(--gold);border-radius:24px}
+.certificate.layout-4:after {inset:5%;border:1px solid var(--gold);border-radius:18px}
+.certificate.layout-5:before {inset:2%;border:3px solid var(--gold)}
+.certificate.layout-5:after {inset:3.5%;border:3px double var(--gold)}
+.certificate.layout-6:before {inset:2%;border:10px double var(--gold)}
+.certificate.layout-6:after {inset:5%;border:1px dashed var(--gold)}
+.certificate.layout-7:before {inset:2%;border:5px groove var(--gold)}
+.certificate.layout-7:after {inset:4%;border:1px solid var(--gold)}
+.certificate.layout-8:before {inset:2%;border:4px double var(--gold);border-radius:5px}
+.certificate.layout-8:after {inset:5%;border:2px dotted var(--gold)}
+.certificate.layout-9:before {inset:2%;border:6px ridge var(--gold)}
+.certificate.layout-9:after {inset:4.5%;border:2px solid var(--gold)}
+.certificate.layout-10:before {inset:2%;border:3px solid var(--gold);box-shadow:inset 0 0 0 5px var(--paper),inset 0 0 0 7px var(--gold)}
+.certificate.layout-10:after {inset:5%;border:1px solid var(--gold)}
+.certificate.layout-2 .cert-heading,
+.certificate.layout-6 .cert-heading {letter-spacing:5px}
+.certificate.layout-3 .cert-recipient {font-family:Playfair Display,serif;font-style:italic}
+.certificate.layout-4 .cert-heading {font-size:clamp(15px,2.7vw,33px)}
+.certificate.layout-5 .cert-recipient {font-family:Playfair Display,serif;font-weight:700}
+.certificate.layout-7 .cert-school {letter-spacing:3px}
+.certificate.layout-8 .cert-recipient {font-family:Cinzel,serif;font-size:clamp(20px,3.8vw,45px)}
+.certificate.layout-9 .cert-award {letter-spacing:3px}
+.certificate.layout-10 .cert-recipient {font-family:"Great Vibes",cursive;font-size:clamp(30px,5.8vw,68px)}
+.certificate.no-seal .seal {display:none}
+.certificate.no-ribbon .ribbon {display:none}
+.certificate.no-side .side-ornament {display:none}
+.certificate.no-corners .corner {display:none}
+.certificate.theme-navy {--gold:#c5a04d;--dark:#10213c;--paper:#fffdf7;--ink:#17243b}
+.certificate.theme-classic {--gold:#aa8538;--dark:#463416;--paper:#fffaf0;--ink:#342a1b}
+.certificate.theme-blue {--gold:#aabbd1;--dark:#17365b;--paper:#fbfdff;--ink:#1a2e49}
+.certificate.theme-burgundy {--gold:#c4a15c;--dark:#681f32;--paper:#fffaf7;--ink:#39232a}
+.certificate.theme-black {--gold:#c6a04b;--dark:#171717;--paper:#fffdf8;--ink:#222}
+.certificate.theme-emerald {--gold:#c5a65c;--dark:#145341;--paper:#fbfff9;--ink:#17382d}
+footer {
+  text-align:center;
+  padding:20px;
+  color:#777;
+  font-size:11px;
+}
+@media(max-width:900px) {
+  .workspace {grid-template-columns:1fr}
+  .gallery {grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:500px) {
+  main {padding:12px}
+  .gallery {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .panel {padding:14px}
+  .certificate {padding:5%}
+  .cert-logo {width:35px;height:35px}
+  .cert-bottom {margin-top:12px}
+}
+@media print {
+  @page {size:A4 landscape;margin:0}
+  body {background:white}
+  header,.editor-panel,.gallery-panel,.preview-top,footer {display:none!important}
+  main {padding:0;margin:0;max-width:none}
+  .workspace {display:block}
+  .preview-area {width:100%;margin:0}
+  .certificate {
+    width:297mm;
+    height:210mm;
+    aspect-ratio:auto;
+    box-shadow:none;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">PRESTIGE CERTIFICATE STUDIO</div>
+  <p>Elegant Certificate Designs • Personalize • Preview • Print</p>
+</header>
+
+<main>
+  <div class="workspace">
+
+    <div>
+      <section class="panel editor-panel">
+        <h2>Certificate Details</h2>
+
+        <label>School Name</label>
+        <input id="school" value="YOUR SCHOOL NAME">
+
+        <label>School Location</label>
+        <input id="location" value="Your School Location">
+
+        <label>Upload School Logo</label>
+        <input type="file" id="logoUpload" accept="image/*">
+
+        <label>Certificate Heading</label>
+        <select id="heading">
+          <option>CERTIFICATE OF RECOGNITION</option>
+          <option>CERTIFICATE OF ACHIEVEMENT</option>
+          <option>CERTIFICATE OF GRADUATION</option>
+          <option>CERTIFICATE OF COMPLETION</option>
+          <option>CERTIFICATE OF PARTICIPATION</option>
+          <option>CERTIFICATE OF APPRECIATION</option>
+          <option>CERTIFICATE OF HONOR</option>
+        </select>
+
+        <label>Recipient Name</label>
+        <input id="recipient" value="Student's Full Name">
+
+        <label>Award / Recognition</label>
+        <input id="award" value="Outstanding Academic Achievement">
+
+        <label>Grade / Program</label>
+        <input id="grade" value="Grade 12">
+
+        <label>School Year</label>
+        <input id="year" value="2026 – 2027">
+
+        <label>Date</label>
+        <input id="date" value="November 11, 2026">
+
+        <label>Certificate Description</label>
+        <input id="description" value="In recognition of dedication, commitment, and outstanding performance.">
+
+        <label>First Signatory</label>
+        <input id="sign1" value="School Principal">
+
+        <label>First Position</label>
+        <input id="pos1" value="School Principal">
+
+        <label>Second Signatory</label>
+        <input id="sign2" value="Class Adviser">
+
+        <label>Second Position</label>
+        <input id="pos2" value="Class Adviser">
+
+        <div class="button-row">
+          <button class="primary" onclick="updateCertificate()">Update Preview</button>
+          <button class="gold-btn" onclick="window.print()">Print / Save PDF</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Design Settings</h2>
+
+        <label>Certificate Category</label>
+        <select id="categoryFilter" onchange="renderGallery()">
+          <option value="All">All Categories</option>
+          <option>Graduation</option>
+          <option>Simple Awards</option>
+          <option>Academic Honors</option>
+          <option>Participation</option>
+          <option>Completion</option>
+          <option>Special Recognition</option>
+        </select>
+
+        <label>Color Theme</label>
+        <select id="themeFilter" onchange="renderGallery()">
+          <option value="All">All Color Themes</option>
+          <option value="navy">Royal Navy & Gold</option>
+          <option value="classic">Classic Gold</option>
+          <option value="blue">Royal Blue & Silver</option>
+          <option value="burgundy">Burgundy & Gold</option>
+          <option value="black">Black & Gold</option>
+          <option value="emerald">Emerald & Gold</option>
+        </select>
+
+        <label>Decoration</label>
+        <div class="button-row">
+          <button class="secondary" onclick="toggleDecoration('no-seal')">Seal On / Off</button>
+          <button class="secondary" onclick="toggleDecoration('no-ribbon')">Ribbon On / Off</button>
+        </div>
+        <div class="button-row">
+          <button class="secondary" onclick="toggleDecoration('no-side')">Side Ornaments</button>
+          <button class="secondary" onclick="toggleDecoration('no-corners')">Corner Ornaments</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="preview-area">
+      <div class="preview-top">
+        <div>
+          <h2 style="margin:0">Live Certificate Preview</h2>
+          <small id="selectedName">Design 01</small>
+        </div>
+        <button class="gold-btn" onclick="window.print()">Print Certificate</button>
+      </div>
+
+      <div class="certificate theme-navy layout-1" id="certificate">
+        <div class="inner-border"></div>
+        <div class="corner tl">❦</div>
+        <div class="corner tr">❦</div>
+        <div class="corner bl">❦</div>
+        <div class="corner br">❦</div>
+        <div class="side-ornament left-ornament">✦ ❧ ✦ ❧ ✦</div>
+        <div class="side-ornament right-ornament">✦ ❧ ✦ ❧ ✦</div>
+        <div class="ribbon">SPECIAL RECOGNITION</div>
+
+        <img class="cert-logo" id="certLogo" alt="School Logo">
+
+        <div class="cert-school" id="pSchool">YOUR SCHOOL NAME</div>
+        <div class="cert-location" id="pLocation">Your School Location</div>
+        <div class="cert-divider">❧ ✦ ❧</div>
+
+        <div class="cert-heading" id="pHeading">CERTIFICATE OF RECOGNITION</div>
+        <div class="cert-subheading">A Mark of Excellence and Achievement</div>
+
+        <div class="awarded">THIS CERTIFICATE IS AWARDED TO</div>
+        <div class="cert-recipient" id="pRecipient">Student's Full Name</div>
+
+        <div class="cert-description" id="pDescription">
+          In recognition of dedication, commitment, and outstanding performance.
+        </div>
+
+        <div class="cert-award" id="pAward">Outstanding Academic Achievement</div>
+        <div class="cert-grade" id="pGrade">Grade 12</div>
+        <div class="cert-year" id="pYear">2026 – 2027</div>
+        <div class="cert-date" id="pDate">November 11, 2026</div>
+
+        <div class="seal">✦<br>HONOR</div>
+
+        <div class="cert-bottom">
+          <div class="signature">
+            <div class="signature-line"></div>
+            <strong id="pSign1">School Principal</strong>
+            <small id="pPos1">School Principal</small>
+          </div>
+          <div class="signature">
+            <div class="signature-line"></div>
+            <strong id="pSign2">Class Adviser</strong>
+            <small id="pPos2">Class Adviser</small>
+          </div>
+        </div>
+      </div>
+
+      <section class="panel gallery-panel" style="margin-top:25px">
+        <div class="gallery-heading">
+          <h2>Certificate Design Gallery</h2>
+          <small id="designCount">100 designs</small>
+        </div>
+        <p style="font-size:12px;color:#777">
+          Choose a design to apply it to your certificate.
+        </p>
+        <div class="gallery" id="gallery"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  PRESTIGE CERTIFICATE STUDIO • Designed for elegant and professional certificates
+</footer>
+
+<script>
+const themes = [
+  {id:"navy",name:"Royal Navy & Gold"},
+  {id:"classic",name:"Classic Gold"},
+  {id:"blue",name:"Royal Blue & Silver"},
+  {id:"burgundy",name:"Burgundy & Gold"},
+  {id:"black",name:"Black & Gold"},
+  {id:"emerald",name:"Emerald & Gold"}
+];
+
+const categories = [
+  "Graduation",
+  "Simple Awards",
+  "Academic Honors",
+  "Participation",
+  "Completion",
+  "Special Recognition"
+];
+
+const ornaments = [
+  "❦","✥","✧","❧","✺","❋","✣","✤","✦","❖"
+];
+
+const layouts = [
+  "Classic Double Frame",
+  "Royal Engraved Frame",
+  "Heritage Ridge Frame",
+  "Floral Rounded Frame",
+  "Imperial Triple Frame",
+  "Grand Diploma Frame",
+  "Regal Grooved Frame",
+  "Elegant Dotted Frame",
+  "Classic Ornate Frame",
+  "Prestige Double-Line Frame"
+];
+
+const designs = [];
+
+for(let i=0;i<100;i++){
+  const theme = themes[i % 6];
+  const layout = i % 10;
+  const category = categories[Math.floor(i/17)] || "Special Recognition";
+
+  designs.push({
+    id:i+1,
+    theme:theme.id,
+    themeName:theme.name,
+    layout:layout+1,
+    layoutName:layouts[layout],
+    category:category,
+    ornament:ornaments[i%10]
+  });
+}
+
+let currentDesign = designs[0];
+let logoData = "";
+
+function miniPreview(d){
+  return `
+    <div class="mini" style="
+      --gold:${getGold(d.theme)};
+      --dark:${getDark(d.theme)};
+      border-style:${["double","ridge","groove","solid","outset"][d.layout%5]};
+      border-width:${3+(d.layout%4)}px;">
+      <div class="mini-seal">✦</div>
+      <em>${d.themeName.toUpperCase()}</em>
+      <span>CERTIFICATE</span>
+      <b>${d.ornament} ${d.category} ${d.ornament}</b>
+      <em>${d.layoutName}</em>
+    </div>`;
+}
+
+function getGold(theme){
+  return {
+    navy:"#c5a04d",
+    classic:"#aa8538",
+    blue:"#aabbd1",
+    burgundy:"#c4a15c",
+    black:"#c6a04b",
+    emerald:"#c5a65c"
+  }[theme];
+}
+
+function getDark(theme){
+  return {
+    navy:"#10213c",
+    classic:"#463416",
+    blue:"#17365b",
+    burgundy:"#681f32",
+    black:"#171717",
+    emerald:"#145341"
+  }[theme];
+}
+
+function renderGallery(){
+  const category = document.getElementById("categoryFilter").value;
+  const theme = document.getElementById("themeFilter").value;
+
+  const filtered = designs.filter(d =>
+    (category==="All" || d.category===category) &&
+    (theme==="All" || d.theme===theme)
+  );
+
+  document.getElementById("designCount").textContent =
+    filtered.length + " designs";
+
+  document.getElementById("gallery").innerHTML =
+    filtered.map(d=>`
+      <button class="design-card ${currentDesign.id===d.id?"selected":""}"
+        onclick="chooseDesign(${d.id})">
+        ${miniPreview(d)}
+        <small>Design ${String(d.id).padStart(2,"0")}</small>
+        <small style="font-weight:400;color:#777">
+          ${d.category} • ${d.themeName}
+        </small>
+      </button>
+    `).join("");
+}
+
+function chooseDesign(id){
+  currentDesign = designs.find(d=>d.id===id);
+  const cert = document.getElementById("certificate");
+
+  cert.className = `certificate theme-${currentDesign.theme} layout-${currentDesign.layout}`;
+
+  document.getElementById("selectedName").textContent =
+    `Design ${String(id).padStart(2,"0")} — ${currentDesign.layoutName}`;
+
+  renderGallery();
+}
+
+function updateCertificate(){
+  const fields = {
+    school:"pSchool",
+    location:"pLocation",
+    heading:"pHeading",
+    recipient:"pRecipient",
+    description:"pDescription",
+    award:"pAward",
+    grade:"pGrade",
+    year:"pYear",
+    date:"pDate",
+    sign1:"pSign1",
+    pos1:"pPos1",
+    sign2:"pSign2",
+    pos2:"pPos2"
+  };
+
+  for(const [inputId,previewId] of Object.entries(fields)){
+    const value = document.getElementById(inputId).value.trim();
+    document.getElementById(previewId).textContent = value;
+  }
+}
+
+function toggleDecoration(className){
+  document.getElementById("certificate").classList.toggle(className);
+}
+
+document.getElementById("logoUpload").addEventListener("change",function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+
+  if(!file.type.startsWith("image/")){
+    alert("Please choose an image file.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(event){
+    logoData = event.target.result;
+    const logo = document.getElementById("certLogo");
+    logo.src = logoData;
+    logo.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+});
+
+document.querySelectorAll(".editor-panel input, .editor-panel select")
+  .forEach(element=>{
+    element.addEventListener("input",updateCertificate);
+    element.addEventListener("change",updateCertificate);
+  });
+
+renderGallery();
+updateCertificate();
+</script>
+
+</body>
+</html>
+
